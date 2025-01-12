@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Software Quality Assurance Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .quiz-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .quiz-header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        #question-number {
+            font-size: 18px;
+            color: #666;
+        }
+
+        .quiz-content {
+            text-align: left;
+        }
+
+        .question-box {
+            margin-bottom: 20px;
+        }
+
+        .question-box h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        #question-text {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .toggle-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .toggle-button:hover {
+            background-color: #0056b3;
+        }
+
+        .answer-box {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .answer-box h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        #answer-text {
+            font-size: 16px;
+            margin-bottom: 10px;
+            white-space: pre-line; /* Ensures each bullet point is on a new line */
+        }
+
+        .rubric-box {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+        .rubric-box h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .rubric-box ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+
+        .rubric-box li {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .quiz-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .nav-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .nav-button:hover {
+            background-color: #0056b3;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h1>Software Quality Assurance Quiz</h1>
+            <p id="question-number">Question 1</p>
+        </div>
+        <div class="quiz-content">
+            <div class="question-box">
+                <h3>Question:</h3>
+                <p id="question-text"></p>
+            </div>
+            <button id="toggle-answer" class="toggle-button">Show Model Answer</button>
+            <div id="answer-box" class="answer-box hidden">
+                <h3>Model Answer:</h3>
+                <p id="answer-text"></p>
+            </div>
+            <div class="rubric-box">
+                <h3>Grading Rubric:</h3>
+                <ul id="rubric-list"></ul>
+            </div>
+        </div>
+        <div class="quiz-navigation">
+            <button id="prev-button" class="nav-button">Previous</button>
+            <button id="next-button" class="nav-button">Next</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                number: 1,
+                title: "Role of SQA in SDLC",
+                question: "What is the role of SQA in SDLC?",
+                answer: `SQA plays a vital role throughout the entire Software Development Life Cycle (SDLC), ensuring quality at each phase. Key roles include:
+- During requirements gathering: Ensures clarity, completeness, and accuracy of requirements.
+- In the design phase: Reviews documents to ensure they meet requirements and verifies the design is scalable, secure, and maintainable.
+- During development: Promotes coding standards and monitors compliance with development methodologies.
+- In the testing phase: Ensures thorough testing is conducted across unit, integration, system, and acceptance levels.
+- During deployment and maintenance: Ensures proper deployment and continuous quality improvement.`,
+                rubric: [
+                    "Comprehensiveness of coverage (5 points)",
+                    "Accuracy of information (5 points)",
+                    "Use of specific examples (5 points)",
+                    "Discussion of integration/complementarity (5 points)"
+                ]
+            },
+            {
+                number: 2,
+                title: "Software Quality Assurance",
+                question: "What is Software Quality Assurance?",
+                answer: `Software Quality Assurance (SQA) is a systematic set of activities that ensure software processes and products comply with defined standards and procedures for best practices. Key aspects include:
+- Process-oriented: Focuses on improving processes.
+- Preventive: Aims to prevent defects.
+- Comprehensive: Covers all phases of the software lifecycle.
+The key objectives are:
+- Ensuring software meets customer expectations.
+- Improving development processes to reduce defects.
+- Ensuring adherence to industry standards.`,
+                rubric: [
+                    "Comprehensiveness of coverage (5 points)",
+                    "Accuracy of information (5 points)",
+                    "Use of specific examples (5 points)",
+                    "Discussion of integration/complementarity (5 points)"
+                ]
+            },
+            {
+                number: 3,
+                title: "Types of Test Plans",
+                question: "What are the Types of Test Plans?",
+                answer: `Test plans can be categorized into several types:
+- Unit Test Plan: Focuses on testing individual components or modules.
+- Integration Test Plan: Covers testing of integrated components.
+- System Test Plan: Addresses testing of the complete system.
+- Acceptance Test Plan: Validates that the system meets business requirements.
+- Performance Test Plan: Tests system performance under various conditions.
+- Security Test Plan: Focuses on security testing aspects.
+Each type of test plan serves a specific purpose in the overall testing strategy and includes detailed information about test objectives, scope, resources, and schedules.`,
+                rubric: [
+                    "Comprehensiveness of coverage (5 points)",
+                    "Accuracy of information (5 points)",
+                    "Use of specific examples (5 points)",
+                    "Discussion of integration/complementarity (5 points)"
+                ]
+            },
+            {
+                number: 4,
+                title: "Levels of Software Testing",
+                question: "What are the Levels of Software Testing?",
+                answer: `Software testing is conducted at four main levels:
+1. Unit Testing: Tests individual components or units of code, typically done by developers.
+2. Integration Testing: Tests interactions between integrated units or components.
+3. System Testing: Tests the complete system as a whole to verify all components work together.
+4. Acceptance Testing: Ensures the system meets business requirements and is typically performed by end-users or clients.`,
+                rubric: [
+                    "Comprehensiveness of coverage (5 points)",
+                    "Accuracy of information (5 points)",
+                    "Use of specific examples (5 points)",
+                    "Discussion of integration/complementarity (5 points)"
+                ]
+            },
+            {
+                number: 5,
+                title: "Test Approaches",
+                question: "What are the Test Approaches?",
+                answer: `The main testing approaches are:
+- White Box Testing: Examines internal logic of the software application.
+- Black Box Testing: Tests functionality without knowledge of internal code.
+- Grey Box Testing: Combines aspects of both white box and black box testing, with partial knowledge of internal workings.
+Each approach has specific applications and advantages in the testing process.`,
+                rubric: [
+                    "Comprehensiveness of coverage (5 points)",
+                    "Accuracy of information (5 points)",
+                    "Use of specific examples (5 points)",
+                    "Discussion of integration/complementarity (5 points)"
+                ]
+            },
+            {
+                number: 6,
+                title: "Automation Testing",
+                question: "Why Transform From Manual to Automated Testing?",
+                answer: `The transformation from manual to automated testing is driven by several factors:
+- Quality Assurance: Automated testing reduces human error and improves test coverage.
+- Error Detection: Automation testing is more efficient at detecting bugs compared to manual testing.
+- Resource Optimization: Reduces the need for extensive human intervention in testing.
+- Time and Cost Efficiency: While initial investment is higher, automation saves time and resources in the long run.
+- Test Coverage: Enables more comprehensive testing with the ability to run more test cases.`,
+                rubric: [
+                    "Comprehensiveness of coverage (5 points)",
+                    "Accuracy of information (5 points)",
+                    "Use of specific examples (5 points)",
+                    "Discussion of integration/complementarity (5 points)"
+                ]
+            },
+            {
+                number: 7,
+                title: "Non-Functional Testing",
+                question: "What are the Non-Functional Testing types?",
+                answer: `Non-functional testing includes:
+- Performance Testing: Examines system behavior under various load conditions.
+- Usability Testing: Assesses user-friendliness and accessibility.
+- Compatibility Testing: Verifies software works across different platforms and environments.
+- Security Testing: Checks for vulnerabilities and security issues.
+- Scalability Testing: Tests system's ability to handle increased load.`,
+                rubric: [
+                    "Comprehensiveness of coverage (5 points)",
+                    "Accuracy of information (5 points)",
+                    "Use of specific examples (5 points)",
+                    "Discussion of integration/complementarity (5 points)"
+                ]
+            },
+            {
+                number: 8,
+                title: "Advantages of Automation Testing",
+                question: "What are the Advantages of Automation Testing?",
+                answer: `Key advantages of automation testing include:
+- Simplified test case execution with minimal supervision.
+- Improved reliability of tests through consistent execution.
+- Increased test coverage capability.
+- Reduced human intervention and associated errors.
+- Time and cost savings in the long run.
+- Earlier detection of defects through continuous testing.`,
+                rubric: [
+                    "Comprehensiveness of coverage (5 points)",
+                    "Accuracy of information (5 points)",
+                    "Use of specific examples (5 points)",
+                    "Discussion of integration/complementarity (5 points)"
+                ]
+            },
+            {
+                number: 9,
+                title: "Automation Testing Types",
+                question: "What are the Automation Testing types?",
+                answer: `Automation testing includes several types:
+- Unit testing: Testing individual code components.
+- Integration testing: Testing combined software modules.
+- Smoke testing: Basic functionality testing.
+- Performance testing: System performance evaluation.
+- Regression testing: Ensuring existing functionality works after changes.
+- Security testing: Checking for security vulnerabilities.
+- API testing: Testing application programming interfaces.
+- UI Testing: Validating user interface elements and functionality.`,
+                rubric: [
+                    "Comprehensiveness of coverage (5 points)",
+                    "Accuracy of information (5 points)",
+                    "Use of specific examples (5 points)",
+                    "Discussion of integration/complementarity (5 points)"
+                ]
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let showAnswer = false;
+
+        const questionNumberElement = document.getElementById('question-number');
+        const questionTextElement = document.getElementById('question-text');
+        const answerTextElement = document.getElementById('answer-text');
+        const rubricListElement = document.getElementById('rubric-list');
+        const toggleAnswerButton = document.getElementById('toggle-answer');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+        const answerBoxElement = document.getElementById('answer-box');
+
+        function loadQuestion(index) {
+            const question = questions[index];
+            questionNumberElement.textContent = `Question ${question.number}`;
+            questionTextElement.textContent = question.question;
+            answerTextElement.textContent = question.answer;
+            rubricListElement.innerHTML = question.rubric.map(criterion => `<li>${criterion}</li>`).join('');
+            answerBoxElement.classList.add('hidden');
+            toggleAnswerButton.textContent = 'Show Model Answer';
+            showAnswer = false;
+        }
+
+        function toggleAnswer() {
+            showAnswer = !showAnswer;
+            answerBoxElement.classList.toggle('hidden', !showAnswer);
+            toggleAnswerButton.textContent = showAnswer ? 'Hide Model Answer' : 'Show Model Answer';
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion(currentQuestionIndex);
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion(currentQuestionIndex);
+            }
+        }
+
+        toggleAnswerButton.addEventListener('click', toggleAnswer);
+        prevButton.addEventListener('click', previousQuestion);
+        nextButton.addEventListener('click', nextQuestion);
+
+        // Load the first question on page load
+        loadQuestion(currentQuestionIndex);
+    </script>
+</body>
+</html>
